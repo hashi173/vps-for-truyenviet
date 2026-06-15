@@ -23,6 +23,11 @@ function decryptDualeoUrl(url) {
             decrypted += String.fromCharCode(decoded.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
         }
         
+        // Validate decryption: valid filenames are alphanumeric with hyphens
+        if (!/^[a-zA-Z0-9-]+$/.test(decrypted)) {
+            return url;
+        }
+        
         parts.push(decrypted + '.' + ext);
         urlObj.pathname = parts.join('/');
         return urlObj.toString();
